@@ -21,7 +21,7 @@ drs$Chromosome <- sapply(strsplit(drs$Chromosome, " "), `[`, 1)
 exonData_gr <- subset(gffData,
                       seqnames %in% c("NC_035107.1", "NC_035108.1", "NC_035109.1") &
                         type == "exon" &
-                        (gbkey == "mRNA" | gbkey == "misc_RNA" | gbkey == "lncRNA"))
+                        (gbkey == "mRNA"))
 
 # Remove redundant exons
 exonData_gr_unique <- unique(exonData_gr)
