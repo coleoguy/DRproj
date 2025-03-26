@@ -92,21 +92,25 @@ ggplot(results_df, aes(x = Gene_Count, y = Log_Repeat_Count)) +
   geom_smooth(method = "lm", se = FALSE, color = "blue") +
   labs(x = "Gene count",
        y = "Repeat count") +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.07))) +
   scale_y_continuous(
     breaks = log10(c(1, 10, 100, 1000)), # set the breaks for log scale
     labels = c(1, 10, 100, 1000) # manually set the labels to reflect unlogged values
-  ) +
+  ) + 
   coord_cartesian(ylim = c(log10(1), log10(1033))) + # Set the y-axis limits
   theme_minimal() +
   theme(
-    axis.title.x = element_text(color = "black"),
-    axis.title.y = element_text(color = "black"),
+    axis.title.x = element_text(color = "black", size = 15),
+    axis.title.y = element_text(color = "black", size = 15),
+    axis.text.x = element_text(color = "black", size = 11),
+    axis.text.y = element_text(color = "black", size = 11),
     axis.line = element_line(color = "black"),
     axis.line.x = element_line(color = "black"),
     axis.line.y = element_line(color = "black"),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank()
   )
+
 
 # Fit the linear model
 lm_model <- lm(results_df$Repeat_Count ~ Gene_Count, data = results_df)

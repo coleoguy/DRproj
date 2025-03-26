@@ -20,14 +20,17 @@ data <- data.frame(Species = species, Genome_Size = genome_sizes, Time = times_m
 ggplot(data, aes(x = Genome_Size, y = Time)) +
   geom_point(color = "black") +
   geom_text_repel(aes(label = Species),
-                  size = 3.5,
+                  size = 4.2,
                   fontface = "italic",
-                  max.overlaps = Inf, hjust = .75) +  # allow as many repels as necessary
+                  max.overlaps = Inf, hjust = .75) +
   labs(x = "Genome Size (Mb)",
        y = "Time (minutes)") +  
   xlim(min(genome_sizes) * 0.9, max(genome_sizes) * 1.1) +  
   theme(
-    axis.text.x = element_text(hjust = .5),
+    axis.title.x = element_text(size = 15),
+    axis.title.y = element_text(size = 15),
+    axis.text.x = element_text(color = "black", size = 13),
+    axis.text.y = element_text(color = "black", size = 13),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
     panel.background = element_blank(),

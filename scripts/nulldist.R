@@ -3,7 +3,7 @@
 #############################
 
 # Name: Megan Copeland
-# Date: March 13th, 2024
+# Date: January 24th, 2024
 # Purpose: Create null distribution of exons flanked by direct repeats (DRs) with faster logic,
 #          returning both whole-genome and per-chromosome counts.
 
@@ -209,16 +209,17 @@ null_dist_wg   <- null_dist_chr_dt[["total"]]
 ##  7) Visualization ##
 ############################
 
-# Define the observed (empirical) counts from the actual data for each chromosome and genome-wide.
 obs_chr1 <- 1247
 obs_chr2 <- 2427
 obs_chr3 <- 2108
 obs_wg   <- 5782
 
-# Set color values for plotting the chromosome-level data and the whole-genome data.
 chrom_color <- "steelblue"
 wg_color    <- "tomato"
 
+############################
+##  2) Range Computations ##
+############################
 y_chr_range <- range(null_dist_chr1, null_dist_chr2, null_dist_chr3,
                      obs_chr1, obs_chr2, obs_chr3)
 y_wg_range  <- range(null_dist_wg, obs_wg)
@@ -233,7 +234,7 @@ trans_wg <- function(x) {
 x_positions <- c(1, 4, 8, 12)
 
 #############################
-##  7a) Setup Plot & Axes   ##
+##  3) Setup Plot & Axes   ##
 #############################
 op <- par(mar = c(7, 5, 4, 7) + 0.1, xpd = TRUE)  # more bottom & right margin
 
@@ -245,24 +246,21 @@ plot(NA, type = "n",
 
 
 # Make left axis ticks horizontal (las=1) & bold, in steelblue
-axis(2, las=1, col.axis = chrom_color, font.axis = 2, cex.axis = 0.8)
-mtext("Number of flanked exons", side = 2, line = 4, col=chrom_color, font=2)
+axis(2, las = 1, col.axis = chrom_color, font.axis = 2, cex.axis = 1) 
+mtext("Number of flanked exons", side = 2, line = 4, col = chrom_color, font = 2, cex = 1.2) 
+
 
 #######################################
-##  7b) Bottom axis with a "break"   ##
+##  3a) Bottom axis with a "break"   ##
 #######################################
 # 1) Draw ticks for Chr1, Chr2, Chr3
-axis(1, at = c(1,4,8), labels = c("Chr1","Chr2","Chr3"), las = 1)
-
-# 2) Insert a slash break around x=9.5 (between 8 and 12)
-#    purely cosmetic, doesn't "shrink" the scale.
+axis(1, at = c(1,4,8), labels = c("Chr1","Chr2","Chr3"), las = 1, cex.axis = 1)
 axis.break(axis = 1, breakpos = 9.5, style = "slash", brw = 0.02)
+axis(1, at = 12, labels = "Genome", las = 1, cex.axis = 1.2)
 
-# 3) Manually add a tick/label for "Genome" at x=12
-axis(1, at = 12, labels = "Genome", las = 1)
 
 #########################
-##  7c) Beeswarm Points ##
+##  4) Beeswarm Points ##
 #########################
 beeswarm(null_dist_chr1, at = x_positions[1], add = TRUE,
          pch = 16, col = adjustcolor(chrom_color, alpha.f = 0.65), method = "hex",
@@ -283,7 +281,7 @@ beeswarm(wg_points_trans, at = x_positions[4], add = TRUE,
          corral = "wrap", spacing = .6, cex = 0.75)
 
 ##############################
-##  7d) Observed (Empirical) ##
+##  5) Observed (Empirical) ##
 ##############################
 points(x_positions[1], obs_chr1,
        pch = 21, bg = chrom_color, col = "black",
@@ -299,7 +297,7 @@ points(x_positions[4], trans_wg(obs_wg),
        cex = 1, lwd = 2)
 
 ##############################
-##  7e) Right-Side Axis (WG) ##
+##  6) Right-Side Axis (WG) ##
 ##############################
 old_xpd <- par("xpd")
 par(xpd = FALSE)  # clip to plot region
@@ -308,14 +306,14 @@ wg_ticks <- pretty(y_wg_range, n = 4)
 axis_tick_positions <- trans_wg(wg_ticks)
 
 # Make tick labels horizontal (las=1), bold, tomato color
-axis(4, at = axis_tick_positions, labels = wg_ticks, line = 0, 
-     las=1, cex.axis = 0.8, col.axis = wg_color, font.axis = 2)
-mtext("Number of flanked exons", side = 4, line = 4, col=wg_color, font=2)
+axis(4, at = axis_tick_positions, labels = wg_ticks, line = 0,
+     las = 1, cex.axis = 1, col.axis = wg_color, font.axis = 2)
+mtext("Number of flanked exons", side = 4, line = 4, col = wg_color, font = 2, cex = 1.2)
 
 par(xpd = old_xpd)
 
 ############################
-##  7f) Legend & Cleanup   ##
+##  7) Legend & Cleanup   ##
 ############################
 legend("topleft",
        legend = c("Null", "Empirical"),
