@@ -284,16 +284,16 @@ beeswarm(wg_points_trans, at = x_positions[4], add = TRUE,
 ##  5) Observed (Empirical) ##
 ##############################
 points(x_positions[1], obs_chr1,
-       pch = 21, bg = chrom_color, col = "black",
+       pch = 17, bg = chrom_color, col = "black",
        cex = 1, lwd = 2)
 points(x_positions[2], obs_chr2,
-       pch = 21, bg = chrom_color, col = "black",
+       pch = 17, bg = chrom_color, col = "black",
        cex = 1, lwd = 2)
 points(x_positions[3], obs_chr3,
-       pch = 21, bg = chrom_color, col = "black",
+       pch = 17, bg = chrom_color, col = "black",
        cex = 1, lwd = 2)
 points(x_positions[4], trans_wg(obs_wg),
-       pch = 21, bg = wg_color, col = "black",
+       pch = 17, bg = wg_color, col = "black",
        cex = 1, lwd = 2)
 
 ##############################
