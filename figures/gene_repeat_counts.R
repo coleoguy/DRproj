@@ -3,7 +3,9 @@
 ### July 9th, 2024
 ### Plot gene and repeat counts
 
-######## Load and filter data ############################
+#############################
+##  1. Load/Filter Data  ##
+#############################
 
 # Load required libraries
 library(ggplot2)      
@@ -40,7 +42,9 @@ drs <- subset(drs, Chromosome %in% chrom_lengths$Chromosome)
 # Get midpoint between repeats using midpoint of the repeat and its copy
 drs$Midpoint <- ((drs$Start_Position + drs$End_Position) / 2 + (drs$Match_Position + drs$Match_End_Position) / 2) / 2
 
-####### Get repeat and gene counts in windows ###############
+######################################
+##  2. Get Gene and Repeat Counts ##
+#####################################
 
 # Define sliding window size and step
 window_size <- 200000  
@@ -85,8 +89,9 @@ results_df <- do.call(rbind, results)
 results_df$Log_Repeat_Count <- log10(results_df$Repeat_Count + 1)
 max(results_df$Repeat_Count)
 
-######## Plot results & fit to linear model #################
-
+###########################
+##  3. Plot Results    ##
+###########################
 ggplot(results_df, aes(x = Gene_Count, y = Log_Repeat_Count)) +
   geom_point(alpha = 0.1, size = 0.5) +
   geom_smooth(method = "lm", se = FALSE, color = "blue") +
