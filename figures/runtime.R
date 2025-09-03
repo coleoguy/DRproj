@@ -8,17 +8,20 @@ species <- c("C. elegans", "A. gambiae", "V. vinifera",
 
 # Genome sizes
 genome_sizes <- c(100.3, 264.5, 494.9, 734, 1100, 1300, 2700, 3100)
-
-# Updated Times in minutes
-times_minutes <- c(4.15, 10, 20.28, 29.71, 
-                   43.57, 48.16, 2.56 * 60, 3.61 * 60)
+times_minutes <- c(4.15, 10, 20.28, 29.71, 43.57, 48.16, 2.56 * 60, 3.61 * 60)
 
 # Create data frame
 data <- data.frame(Species = species, Genome_Size = genome_sizes, Time = times_minutes)
 
-# Plot using geom_text_repel
+# Fit linear model
+model <- lm(Time ~ Genome_Size, data = data)
+model_summary <- summary(model)
+r2 <- round(model_summary$r.squared, 3)
+
+# Plot
 ggplot(data, aes(x = Genome_Size, y = Time)) +
   geom_point(color = "black") +
+  geom_smooth(method = "lm", se = FALSE, color = "lightblue", linetype = "dashed") +
   geom_text_repel(aes(label = Species),
                   size = 4.2,
                   fontface = "italic",
